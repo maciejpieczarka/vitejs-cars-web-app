@@ -1,0 +1,29 @@
+{
+  "cars": [
+    {
+      "brand": "Skoda",
+      "model": "Octavia",
+      "doorsNumber": 5,
+      "luggageCapacity": 600,
+      "engineCapacity": 1500,
+      "fuelType": 2,
+      "productionDate": "2021-03-15",
+      "averageFuelConsumption": 6.8,
+      "bodyType": 2,
+      "id": "2"
+    },
+    {
+      "brand": "skoda",
+      "model": "octavia",
+      "doorsNumber": 5,
+      "luggageCapacity": 700,
+      "engineCapacity": 1400,
+      "fuelType": 1,
+      "productionDate": "2004-03-02",
+      "averageFuelConsumption": 5.8,
+      "bodyType": 3,
+      "id": "DQuRtNpApvw"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
