@@ -23,8 +23,8 @@ const App = () => {
           <Route path=":id" element={<CarDetailsPage />} />
           <Route path=":id/edit" element={<EditCarPage />} />
         </Route>
-        <Route path="*" element={<NotFoundPage />} />
       </Route>
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 };
