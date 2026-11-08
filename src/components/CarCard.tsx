@@ -22,7 +22,7 @@ const CarCard = ({ id, brand, model }: CarProps) => {
   };
 
   return (
-    <div className="w-full bg-gray-700 p-5 flex rounded-lg  items-center justify-between">
+    <div className="w-full bg-gray-700 p-5 flex rounded-lg  items-center justify-between shadow-lg">
       <div>
         <h2 className="text-3xl">{brand}</h2>
         <h3 className="text-lg">{model}</h3>
@@ -32,23 +32,23 @@ const CarCard = ({ id, brand, model }: CarProps) => {
         <button
           onClick={() => navigate(`/cars/${id}`)}
           data-width="full"
-          className="w-full  bg-white text-black rounded-lg p-2 hover:bg-gray-100 cursor-pointer"
+          className="bg-gray-100 hover:bg-gray-300 text-gray-950 font-semibold py-2 px-4 rounded"
         >
-          Details
+          Szczegóły
         </button>
         <button
           onClick={() => navigate(`/cars/${id}/edit`)}
           data-width="full"
-          className="w-full  bg-white text-black rounded-lg p-2 hover:bg-gray-100 cursor-pointer"
+          className="bg-gray-100 hover:bg-gray-300 text-gray-950 font-semibold py-2 px-4 rounded"
         >
-          Edit
+          Edytuj
         </button>
         <button
           onClick={() => handleDelete(brand, model, id)}
           data-width="full"
-          className="w-full  bg-red-400 text-black rounded-lg p-2  hover:opacity-90 cursor-pointer"
+          className="bg-red-400 hover:bg-red-500 text-gray-950 font-semibold py-2 px-4 rounded"
         >
-          Remove
+          Usuń
         </button>
       </div>
     </div>

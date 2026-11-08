@@ -13,7 +13,7 @@
       "id": "2"
     },
     {
-      "brand": "skoda",
+      "brand": "skodadd",
       "model": "octavia",
       "doorsNumber": 5,
       "luggageCapacity": 700,
@@ -23,6 +23,18 @@
       "averageFuelConsumption": 5.8,
       "bodyType": 3,
       "id": "DQuRtNpApvw"
+    },
+    {
+      "brand": "Bmw",
+      "model": "3",
+      "doorsNumber": 5,
+      "luggageCapacity": 600,
+      "engineCapacity": 2700,
+      "fuelType": 5,
+      "productionDate": "2026-08-06",
+      "averageFuelConsumption": 5.8,
+      "bodyType": 3,
+      "id": "vnuRQpZHG_U"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

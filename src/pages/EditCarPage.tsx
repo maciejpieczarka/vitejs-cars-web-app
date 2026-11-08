@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router';
 import type { Car } from '../models/Car';
 import { getCarById, updateCar } from '../services/carService';
 import CarForm from '../components/CarForm';
+import { FaArrowLeft } from 'react-icons/fa';
 
 const EditCarPage = () => {
   const [car, setCar] = useState<Car | null>(null);
@@ -56,16 +57,25 @@ const EditCarPage = () => {
     }
   };
 
-  if (loading) {
-    return <p>Ładowanie danych pojazdu...</p>;
-  }
-
   return (
-    <div>
-      <h2>Edycja pojazdu</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {car ? (
+    <div className="max-w-4xl mx-auto">
+      <button
+        onClick={() => navigate(-1)}
+        className="mb-6 gap-2 inline-flex items-center text-sm font-semibold text-slate-50 hover:text-slate-300 transition-colors"
+      >
+        <FaArrowLeft />
+        Powrót
+      </button>
+      {loading ? (
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-12 text-center">
+          <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-slate-900 border-r-transparent mb-4" />
+          <p className="text-slate-500 font-medium">
+            Ładowanie szczegółów pojazdu...
+          </p>
+        </div>
+      ) : car ? (
         <CarForm
+          title={`Edytuj pojazd ${car.id}`}
           key={car.id}
           initialData={car}
           onSubmit={handleUpdateCar}
@@ -73,7 +83,10 @@ const EditCarPage = () => {
           isSubmitting={saving}
         />
       ) : (
-        <p>Nie znaleziono pojazdu.</p>
+        <div>
+          <h1 className="text-2xl font-black mb-2">Nie odnaleziono pojazdu </h1>
+          <p>Error: {error}</p>
+        </div>
       )}
     </div>
   );

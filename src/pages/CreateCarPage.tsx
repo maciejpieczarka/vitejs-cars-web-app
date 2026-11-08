@@ -28,12 +28,11 @@ export const CreateCarPage: React.FC = () => {
   };
 
   return (
-    <div style={{ maxWidth: '450px', margin: '0 auto', padding: '16px' }}>
-      <h2>Dodaj pojazd</h2>
-
+    <div className="max-w-4xl mx-auto">
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <CarForm
+        title="Utwórz pojazd"
         onSubmit={handleCreateCar}
         submitButtonLabel="Dodaj pojazd"
         isSubmitting={loading}

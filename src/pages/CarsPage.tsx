@@ -3,6 +3,7 @@ import { getCars } from '../services/carService';
 import type { Car } from '../models/Car';
 import CarCard from '../components/CarCard';
 import { useNavigate } from 'react-router';
+import { FaPlus } from 'react-icons/fa';
 
 const CarsPage = () => {
   const [cars, setCars] = useState<Car[]>([]);
@@ -25,9 +26,10 @@ const CarsPage = () => {
         <p>Brak samochodów w bazie danych</p>
       )}
       <button
-        className="bg-green-600 rounded-lg px-4 py-2"
+        className="inline-flex items-center gap-2 bg-green-300 hover:bg-green-400 text-gray-950 font-semibold py-2 px-4 rounded"
         onClick={() => navigate('/cars/new')}
       >
+        <FaPlus />
         Dodaj samochod
       </button>
     </div>
