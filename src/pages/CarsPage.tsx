@@ -35,6 +35,10 @@ const CarsPage = () => {
     return matchesSeach && matchesFavorite;
   });
 
+  const handleDeleteCar = (deletedId: string) => {
+    setCars(prevCars => prevCars.filter(car => car.id !== deletedId));
+  };
+
   useEffect(() => {
     const controller = new AbortController();
     async function loadCars() {
@@ -103,7 +107,12 @@ const CarsPage = () => {
       </div>
       {cars.length > 0 ? (
         visibleCars.map(car => (
-          <CarCard id={car.id} brand={car.brand} model={car.model} />
+          <CarCard
+            id={car.id}
+            brand={car.brand}
+            model={car.model}
+            onDelete={handleDeleteCar}
+          />
         ))
       ) : (
         <p>Brak samochodów w bazie danych.</p>

@@ -8,11 +8,12 @@ type CarProps = {
   id: string;
   brand: string;
   model: string;
+  onDelete: (val: string) => void;
 };
 
-const CarCard = ({ id, brand, model }: CarProps) => {
-  const removeFavorite = useCarUiStore(state => state.removeFavorite);
+const CarCard = ({ id, brand, model, onDelete }: CarProps) => {
   const navigate = useNavigate();
+  const removeFavorite = useCarUiStore(state => state.removeFavorite);
   const isFavorite = useCarUiStore(state => state.favoriteCarIds.includes(id));
   const toggleFavorite = useCarUiStore(state => state.toggleFavorite);
 
@@ -24,6 +25,7 @@ const CarCard = ({ id, brand, model }: CarProps) => {
     ) {
       deleteCar(carId);
       removeFavorite(carId);
+      onDelete(carId);
     }
   };
 
