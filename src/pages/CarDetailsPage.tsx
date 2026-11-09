@@ -3,6 +3,7 @@ import type { Car } from '../models/Car';
 import { getCarById } from '../services/carService';
 import { useNavigate, useParams } from 'react-router';
 import { FaArrowLeft } from 'react-icons/fa';
+import axios from 'axios';
 
 type DetailsParams = {
   id: string;
@@ -10,32 +11,54 @@ type DetailsParams = {
 
 const CarDetailsPage = () => {
   const [car, setCar] = useState<Car | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
   const params = useParams<DetailsParams>();
   const navigate = useNavigate();
 
   useEffect(() => {
+    const controller = new AbortController();
     async function loadCar() {
       if (!params.id) return;
       try {
-        setLoading(true);
-        const loadedCar = await getCarById(params.id);
+        setIsLoading(true);
+        setError(null);
+        const loadedCar = await getCarById(params.id, controller.signal);
         setCar(loadedCar);
       } catch (error) {
-        console.error('Błąd podczas pobierania danych pojazdu:', error);
-        setCar(null);
+        if (axios.isCancel(error)) {
+          return;
+        }
+
+        if (error instanceof Error) {
+          setError(error.message);
+        } else {
+          setError('Wystapil nieznany blad');
+        }
       } finally {
-        setLoading(false);
+        if (!controller.signal.aborted) {
+          setIsLoading(false);
+        }
       }
     }
     loadCar();
+
+    return () => {
+      controller.abort();
+    };
   }, [params.id]);
+
+  const fuelTypes = ['Benzyna', 'Diesel', 'Hybryda', 'Elektryczny', 'LPG'];
+  const bodyTypes = ['Sedan', 'Kombi', 'Hatchback', 'SUV', 'Coupe'];
 
   const specs = car
     ? [
-        { label: 'Nadwozie', value: car.bodyType },
-        { label: 'Rok produkcji', value: car.productionDate },
-        { label: 'Paliwo', value: car.fuelType },
+        { label: 'Nadwozie', value: bodyTypes[car.bodyType] },
+        {
+          label: 'Rok produkcji',
+          value: new Date(car.productionDate).toLocaleDateString()
+        },
+        { label: 'Paliwo', value: fuelTypes[car.fuelType] },
         { label: 'Pojemność silnika', value: `${car.engineCapacity} cm³` },
         {
           label: 'Średnie spalanie',
@@ -45,6 +68,10 @@ const CarDetailsPage = () => {
         { label: 'Liczba drzwi', value: car.doorsNumber }
       ]
     : [];
+
+  if (error) {
+    return <div>Wystapil blad: {error}</div>;
+  }
 
   return (
     <div>
@@ -57,7 +84,7 @@ const CarDetailsPage = () => {
           Powrót
         </button>
 
-        {loading ? (
+        {isLoading ? (
           <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-12 text-center">
             <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-slate-900 border-r-transparent mb-4" />
             <p className="text-slate-500 font-medium">
