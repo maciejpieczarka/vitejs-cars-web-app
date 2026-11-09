@@ -246,11 +246,11 @@ const CarForm = ({
               <option value="" disabled>
                 Wybierz rodzaj paliwa...
               </option>
-              <option value={1}>Benzyna</option>
-              <option value={2}>Diesel</option>
-              <option value={3}>LPG</option>
-              <option value={4}>Elektryczny</option>
-              <option value={5}>Hybryda</option>
+              <option value={0}>Benzyna</option>
+              <option value={1}>Diesel</option>
+              <option value={2}>Hybryda</option>
+              <option value={3}>Elektryczny</option>
+              <option value={4}>LPG</option>
             </select>
           </div>
 

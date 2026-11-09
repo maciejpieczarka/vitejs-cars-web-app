@@ -4,6 +4,7 @@ import type { Car } from '../models/Car';
 import { getCarById, updateCar } from '../services/carService';
 import CarForm from '../components/CarForm';
 import { FaArrowLeft } from 'react-icons/fa';
+import axios from 'axios';
 
 const EditCarPage = () => {
   const [car, setCar] = useState<Car | null>(null);
@@ -14,23 +15,35 @@ const EditCarPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const controller = new AbortController();
+
     if (!id) return;
     const fetchCar = async () => {
       try {
         setLoading(true);
         setError(null);
 
-        const carResponse = await getCarById(id);
+        const carResponse = await getCarById(id, controller.signal);
         setCar(carResponse);
-      } catch (err: unknown) {
-        setError(
-          err instanceof Error ? err.message : 'Wystąpił błąd pobierania'
-        );
+      } catch (err) {
+        if (axios.isCancel(err)) {
+          return;
+        }
+
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError('Wystapil nieoczekiwany blad');
+        }
       } finally {
         setLoading(false);
       }
     };
     fetchCar();
+
+    return () => {
+      controller.abort();
+    };
   }, [id]);
 
   const handleUpdateCar = async (formData: Omit<Car, 'id'>) => {
@@ -45,9 +58,9 @@ const EditCarPage = () => {
       setSaving(true);
       setError(null);
 
-      const res = await updateCar(id, updatedCar);
+      await updateCar(id, updatedCar);
 
-      navigate(`/cars/${res.id}`);
+      navigate(`/cars/${id}`);
     } catch (err: unknown) {
       setError(
         err instanceof Error ? err.message : 'Wystąpił nieoczekiwany błąd'
