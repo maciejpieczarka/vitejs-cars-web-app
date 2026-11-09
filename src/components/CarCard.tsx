@@ -1,6 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
 import { deleteCar } from '../services/carService';
+import { FaRegStar, FaStar } from 'react-icons/fa';
+import { useCarUiStore } from '../store/useCarUiStore';
 
 type CarProps = {
   id: string;
@@ -9,7 +11,10 @@ type CarProps = {
 };
 
 const CarCard = ({ id, brand, model }: CarProps) => {
+  const removeFavorite = useCarUiStore(state => state.removeFavorite);
   const navigate = useNavigate();
+  const isFavorite = useCarUiStore(state => state.favoriteCarIds.includes(id));
+  const toggleFavorite = useCarUiStore(state => state.toggleFavorite);
 
   const handleDelete = (carBrand: string, carModel: string, carId: string) => {
     if (
@@ -18,6 +23,7 @@ const CarCard = ({ id, brand, model }: CarProps) => {
       )
     ) {
       deleteCar(carId);
+      removeFavorite(carId);
     }
   };
 
@@ -49,6 +55,10 @@ const CarCard = ({ id, brand, model }: CarProps) => {
           className="bg-red-400 hover:bg-red-500 text-gray-950 font-semibold py-2 px-4 rounded"
         >
           Usuń
+        </button>
+
+        <button onClick={() => toggleFavorite(id)} type="button">
+          {isFavorite ? <FaStar /> : <FaRegStar />}
         </button>
       </div>
     </div>
